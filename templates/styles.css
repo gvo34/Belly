@@ -1,0 +1,53 @@
+/*
+.navbar-default{
+    background-color:red !important;
+    color:whitesmoke !important;
+}
+*/
+
+.navbar{
+    margin-bottom: 20px !important;
+}
+
+.navbar-brand{
+    background-color:orange;
+    margin-left:30% !important;
+}
+
+
+body{
+    font-family: 'Times New Roman', Times, serif !important;
+    background-color: #eee;
+}
+
+img{
+    max-width: 100%;
+    max-height:100%
+}
+
+p{
+    font-size:15px !important;
+}
+.panel-heading{
+    height:10px !important;
+    padding:0;
+    background-color:rgb(30, 139, 129) !important;
+}
+
+h3{
+    color:rgb(30, 139, 129);
+}
+
+h2{
+    color:rgb(30, 139, 129);
+}
+
+.jumbotron{
+    background-color: white!important;
+    margin-left: 10px;
+}
+
+.img-fluid{
+    max-height:50% !important;
+    max-width:50%  !important;
+}
