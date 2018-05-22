@@ -5,43 +5,9 @@
  */
 
 function gauge(frequency){
-
-    // display as a level between 0 and 180
-    switch(frequency){
-        case 0:
-            level = 0;
-            break;
-        case 1:
-            level = 25;
-            break;
-        case 2:
-            level = 45;
-            break;
-        case 3:
-            level = 60;
-            break;
-        case 4:
-            level = 85;
-            break;
-        case 5:
-            level = 100;
-            break;
-        case 6:
-            level = 115;
-            break;
-        case 7:
-            level = 140;
-            break;
-        case 8:
-            level = 170;
-            break;
-        default:
-            level = 180;
-    }
-
     // Trig to calc meter point
-    var degrees = 180 - level,
-        radius = .5;
+    var degrees = 180 - (frequency*20);
+    var radius = .5;
     var radians = degrees * Math.PI / 180;
     var x = radius * Math.cos(radians);
     var y = radius * Math.sin(radians);
