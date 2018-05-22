@@ -111,10 +111,10 @@ def metadata(sample):
             SamplesMetadataDB.LOCATION]
 
     sampleid = sample[3:] #remove leading BB_ characters
+    print("inside metadata "+sampleid)
     results = session.query(*sel).  \
                 filter(SamplesMetadataDB.SAMPLEID==sampleid).all()
-    
-    metadata = results
+
     metadata = {
         'AGE':results[0][0],
         'BBTYPE':results[0][1],
@@ -125,7 +125,7 @@ def metadata(sample):
     }
 
     print(metadata)
-    return metadata
+    return jsonify(metadata)
 
 @app.route('/wfreq/<sample>')
 def weekly(sample):

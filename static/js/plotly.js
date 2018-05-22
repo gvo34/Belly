@@ -179,20 +179,37 @@ function optionChanged(route) {
     });
 
     
-    // update weekly frequency gauge and sample metadata
-    var wf = weekly(route);
-    
-    gauge(wf);
+    console.log ("draw gauge for initial sample");
+    Plotly.d3.json(`/wfreq/${route}`, function(error, response) {
+        console.log("WFREQ/SAMPLE");
+        if (error) return console.warn(error);
+        console.log(response)
 
-    // var metadata = meta(`metadata/${route}`);
+        gauge(response);
+    });
 
-    // var TABLE = document.getElementById('tbody');
-    // for (var i = 1; i < response.length; i++) {
-    //     var TDATA = document.createElement('td');
-    //     var selectHTML = "<td>" + metadata[i] + +  "</td>";
-    //     TDATA.innerHTML = selectHTML;
-    //     TABLE.add(TDATA); 
-    // }
+
+    Plotly.d3.json(`/metadata/${route}`, function(error, response) {
+        console.log("METADATA/SAMPLE");
+        if (error) return console.warn(error);
+        console.log(response);
+
+        var TABLE = document.getElementById('meta_data');
+        var TEXT1 = "<p> AGE:" + response.AGE + "</p>";
+        var TEXT2 = "<p> BBTYPE:" + response.BBTYPE + "</p>";
+        var TEXT3 = "<p> ETHNICITY:" + response.ETHNICITY + "</p>";
+        var TEXT4 = "<p> GENDER:" + response.GENDER + "</p>";
+        var TEXT5 = "<p> LOCATION:" + response.LOCATION + "</p>";
+
+        TABLE.innerHTML = TEXT1 + TEXT2 +TEXT3 + TEXT4 + TEXT5;
+
+        // for (var i = 1; i < response.length; i++) {
+        //     var TROW = document.createElement('tr');
+        //     var selectHTML = "<td> somtging </td>";
+        //     TROW.innerHTML = selectHTML;
+        //     TABLE.add(TROW); 
+        // }
+    });
     
 
 } 
@@ -236,13 +253,14 @@ function otu(){
 
 }
 
-var meta_route = '/metadata/<sample>'
+// meta_route = '/metadata/<sample>'
 function meta(sample){
     /*
      *   MetaData for a given sample.
      *   Args: Sample in the format: `BB_940`
     */
-    Plotly.d3.json(meta_route, function(error, response) {
+    Plotly.d3.json(`/metadata/${sample}`, function(error, response) {
+        console.log("medatdata "+ response);
         if (error) return console.warn(error);
         return response
     });
@@ -250,13 +268,13 @@ function meta(sample){
 
 }
 
-var wfreq_route = '/wfreq/<sample>'
+// wfreq_route = '/wfreq/<sample>'
 function weekly(sample){
     /*
      *   Weekly Washing Frequency as a number.
      *   Args: Sample in the format: `BB_940`
     */
-    Plotly.d3.json(wfreq_route, function(error, response) {
+    Plotly.d3.json(`/wfreq/${sample}`, function(error, response) {
         console.log("Weekly Frequency "+ response);
         if (error) return console.warn(error);
         return response
@@ -264,15 +282,15 @@ function weekly(sample){
 }
 
 
-var samples_route = '/samples/<sample>'
+// samples_route = '/samples/<sample>'
 function samples(sample){
     /*
     *   OTU IDs and Sample Values for a given sample.
     *   OTU ID and Sample Value in Descending Order by Sample Value
     */
 
-    Plotly.d3.json(samples_route, function(error, response) {
-        console.log("SAMPLES/SAMPLE");
+    Plotly.d3.json(`/samples/${sample}`, function(error, response) {
+        console.log("samples/SAMPLE");
         if (error) return console.warn(error);
         console.log(response)
         return response
@@ -280,47 +298,90 @@ function samples(sample){
 }
 
 
-function init(bbsample) {
-    console.log("INIT ");
-    
-    // Empty charts to begin
+function init() {
+
+    console.log("draw_pie for initial sample");
+
+    Plotly.d3.json(`/samples/BB_940`, function(error, response) {
+        console.log("SAMPLES/SAMPLE");
+        if (error) return console.warn(error);
+        console.log(response)
+    datasample = response;    
     var trace = [
       {
-        x: [],
-        y: [],
+        labels: datasample.otu_ids.slice(1,11),
+        values: datasample.sample_values.slice(1,11),
         type: 'pie'
       },
     ];
     Plotly.plot('plot', trace);
+    var sizes =[];
+    for (var value in datasample.sample_values) {
+        sizes.push(datasample.sample_values[value]/2);
+      }
     var traces = [
         {
-          x: [1,2,3],
-          y: [1,2,3],
+          x: datasample.otu_ids,
+          y: datasample.sample_values,
           type: 'scatter',
           mode: 'markers',
           marker: {
-              size:[1,2,3]
+              size: sizes
           }
         },
       ];
     var layout = {
         xaxis: {
             title: 'OTU ID',
-            range:[0,3700]
+           // range:[0,3700]
         },
         yaxis: {
-            range:[0,200]
+           // range:[0,200]
         },
         showlegend: false,
     };
     console.log("display initial scatter plot");
     Plotly.plot('scatter',traces, layout);
+    });
 
-    // Draw initial sample
-    console.log("display initial pie with "+ bbsample);
-    optionChanged(bbsample);
-  }
+    
+    console.log ("draw gauge for initial sample");
+    Plotly.d3.json(`/wfreq/BB_940`, function(error, response) {
+        console.log("WFREQ/SAMPLE");
+        if (error) return console.warn(error);
+        console.log(response)
+
+        gauge(response);
+    });
+
+
+    Plotly.d3.json(`/metadata/BB_940`, function(error, response) {
+        console.log("METADATA/SAMPLE");
+        if (error) return console.warn(error);
+        console.log(response);
+
+        var TABLE = document.getElementById('meta_data');
+        var TEXT1 = "<p> AGE:" + response.AGE + "</p>";
+        var TEXT2 = "<p> BBTYPE:" + response.BBTYPE + "</p>";
+        var TEXT3 = "<p> ETHNICITY:" + response.ETHNICITY + "</p>";
+        var TEXT4 = "<p> GENDER:" + response.GENDER + "</p>";
+        var TEXT5 = "<p> LOCATION:" + response.LOCATION + "</p>";
+
+        TABLE.innerHTML = TEXT1 + TEXT2 +TEXT3 + TEXT4 + TEXT5;
+
+        // for (var i = 1; i < response.length; i++) {
+        //     var TROW = document.createElement('tr');
+        //     var selectHTML = "<td> somtging </td>";
+        //     TROW.innerHTML = selectHTML;
+        //     TABLE.add(TROW); 
+        // }
+    });
+
+
+
+
+}
   
 
 names()    
-init('BB_940')
+init();
