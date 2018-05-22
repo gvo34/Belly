@@ -4,10 +4,40 @@
  * 
  */
 
+function gauge(frequency){
 
-function drawgauge(frequency){
-    // Enter a speed between 0 and 180
-var level = frequency;
+// display as a level between 0 and 180
+switch(frequency){
+    case 0:
+        level = 0;
+        break;
+    case 1:
+        level = 25;
+        break;
+    case 2:
+        level = 45;
+        break;
+    case 3:
+        level = 60;
+        break;
+    case 4:
+        level = 85;
+        break;
+    case 5:
+        level = 100;
+        break;
+    case 6:
+        level = 115;
+        break;
+    case 7:
+        level = 140;
+        break;
+    case 8:
+        level = 170;
+        break;
+    default:
+        level = 180;
+}
 
 // Trig to calc meter point
 var degrees = 180 - level,
@@ -28,23 +58,23 @@ var data = [{ type: 'scatter',
    x: [0], y:[0],
     marker: {size: 28, color:'850000'},
     showlegend: false,
-    name: 'Weekly Frequency',
-    text: level,
+    name: 'frequency',
+    text: frequency,
     hoverinfo: 'text+name'},
-  { values: [50/9, 50/9, 50/9, 50/9, 50/9, 50/9, 50/9, 50/9, 50/9,50],
+  { values: [50/9,50/9, 50/9, 50/9, 50/9, 50/9, 50/9, 50/9,50/9,50],
   rotation: 90,
-  text: ['9-8', '8-7', '7-6', '6-5',
-            '5-4', '4-3', '3-2','2-1','1-0'],
+  text: ['8-9', '7-8', '6-7', '5-6', '4-5', '3-4',
+            '2-3', '1-2', '0-1',''],
   textinfo: 'text',
-  textposition:'inside',      
+  textposition:'inside',
   marker: {colors:['rgba(14, 127, 0, .5)', 'rgba(110, 154, 22, .5)',
                          'rgba(170, 202, 42, .5)', 'rgba(202, 209, 95, .5)',
-                         'rgba(210, 206, 145, .5)', 'rgba(220, 226, 202, .5)',
-                         'rgba(230, 216, 145, .5)', 'rgba(240, 226, 202, .5)',
-                         'rgba(248, 226, 202, .5)',
-                         'rgba(255, 255, 255, 0)'],
-                        },
-  labels: ['9-8', '8-7', '7-6', '6-5', '5-4', '4-3', '3-2', '2-1', '1-0'],
+                         'rgba(205, 202, 42, .5)', 'rgba(210, 209, 95, .5)',
+                         'rgba(210, 206, 145, .5)', 'rgba(232, 226, 202, .5)',
+                         'rgba(240, 216, 145, .5)',
+                         'rgba(255, 255, 255, 0)']},
+  labels: ['8-9', '7-8', '6-7', '5-6', '4-5', '3-4',
+  '2-3', '1-2', '0-1',''],
   hoverinfo: 'label',
   hole: .5,
   type: 'pie',
@@ -60,7 +90,7 @@ var layout = {
         color: '850000'
       }
     }],
-  title: '<b>Gauge</b> <br> Frequency 0-9',
+  title: 'Weekly frequency 0-9',
   xaxis: {zeroline:false, showticklabels:false,
              showgrid: false, range: [-1, 1]},
   yaxis: {zeroline:false, showticklabels:false,
@@ -68,7 +98,12 @@ var layout = {
 };
 
 Plotly.newPlot('dialweek', data, layout);
+
+
+
+
 }
+
 
 /* 
  * Update the plot with new data
@@ -115,10 +150,9 @@ function updatePlotly(newdata) {
     Plotly.restyle(scatdiv, 'y', [newdata.sample_values]);
     Plotly.restyle(scatdiv, 'text', [newdata.otu_desc]);
     Plotly.restyle(scatdiv, 'marker.size', [size]);
-    Plotly.restyle(scatdiv, "marker.color",[colors]);
-
     
-   
+    // WHY doesnt this work?
+    //Plotly.restyle(scatdiv, "marker.color",[colors]);
     // var update = {
     //     'x':newdata.otu_ids,
     //     'y':newdata.sample_values,
@@ -129,8 +163,6 @@ function updatePlotly(newdata) {
 
     // };
     // Plotly.update(scatdiv, update,[0]);
-   
-    
     
 }
 
@@ -142,9 +174,26 @@ function optionChanged(route) {
     console.log("called with  "+ route);
     Plotly.d3.json(`samples/${route}`, function(error, data) {
         console.log("Option Changed", data);
-        updatePlotly(data);
+        // update pie chart and scatter plot
+        updatePlotly(data);   
     });
 
+    
+    // update weekly frequency gauge and sample metadata
+    var wf = weekly(route);
+    
+    gauge(wf);
+
+    // var metadata = meta(`metadata/${route}`);
+
+    // var TABLE = document.getElementById('tbody');
+    // for (var i = 1; i < response.length; i++) {
+    //     var TDATA = document.createElement('td');
+    //     var selectHTML = "<td>" + metadata[i] + +  "</td>";
+    //     TDATA.innerHTML = selectHTML;
+    //     TABLE.add(TDATA); 
+    // }
+    
 
 } 
 
@@ -197,7 +246,7 @@ function meta(sample){
         if (error) return console.warn(error);
         return response
     });
-    tablepanel = document.getElementById('sampledata');
+    
 
 }
 
@@ -231,7 +280,7 @@ function samples(sample){
 }
 
 
-function init() {
+function init(bbsample) {
     console.log("INIT ");
     
     // Empty charts to begin
@@ -268,30 +317,10 @@ function init() {
     Plotly.plot('scatter',traces, layout);
 
     // Draw initial sample
-    var bbsample = 'BB_940'
     console.log("display initial pie with "+ bbsample);
     optionChanged(bbsample);
-
-    var weekly_freq = weekly(bbsample);
-    console.log("display the gauge dial  with " + weekly_freq);
-    
-    
-    drawgauge(5);
-    
-    // console.log("display the sample data table");
-    // metadata(bbsample);
-    // var bbsample = 'BB-940'
-    
-
-
-
-
-
-    
-
-
   }
   
 
 names()    
-init()
+init('BB_940')

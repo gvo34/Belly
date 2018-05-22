@@ -33,7 +33,7 @@ session = Session(engine)
 # Flask Setup
 #################################################
 app = Flask(__name__)
-
+BB_SAMPLE = 'BB_940'  ## Initial value at load up time
 
 # Query the database and send the jsonified results
 
@@ -123,7 +123,9 @@ def metadata(sample):
         'LOCATION':results[0][4],
         'SAMPLEID':int(sampleid)
     }
-    return jsonify(metadata)
+
+    print(metadata)
+    return metadata
 
 @app.route('/wfreq/<sample>')
 def weekly(sample):
@@ -144,7 +146,7 @@ def weekly(sample):
         weeklyfrequency = results[0][0]
     else:
         weeklyfrequency = 0
-                    
+
     return jsonify(weeklyfrequency)
     
 
@@ -207,7 +209,9 @@ def samples(sample):
 
 @app.route('/')
 def home():
-    return render_template("index.html")
+    sample_data = metadata(BB_SAMPLE)
+    weekly_freq = weekly(BB_SAMPLE)
+    return render_template("index.html", sample_data=sample_data, weekly_freq=weekly_freq)
 
 
 
