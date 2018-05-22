@@ -6,102 +6,98 @@
 
 function gauge(frequency){
 
-// display as a level between 0 and 180
-switch(frequency){
-    case 0:
-        level = 0;
-        break;
-    case 1:
-        level = 25;
-        break;
-    case 2:
-        level = 45;
-        break;
-    case 3:
-        level = 60;
-        break;
-    case 4:
-        level = 85;
-        break;
-    case 5:
-        level = 100;
-        break;
-    case 6:
-        level = 115;
-        break;
-    case 7:
-        level = 140;
-        break;
-    case 8:
-        level = 170;
-        break;
-    default:
-        level = 180;
-}
+    // display as a level between 0 and 180
+    switch(frequency){
+        case 0:
+            level = 0;
+            break;
+        case 1:
+            level = 25;
+            break;
+        case 2:
+            level = 45;
+            break;
+        case 3:
+            level = 60;
+            break;
+        case 4:
+            level = 85;
+            break;
+        case 5:
+            level = 100;
+            break;
+        case 6:
+            level = 115;
+            break;
+        case 7:
+            level = 140;
+            break;
+        case 8:
+            level = 170;
+            break;
+        default:
+            level = 180;
+    }
 
-// Trig to calc meter point
-var degrees = 180 - level,
-     radius = .5;
-var radians = degrees * Math.PI / 180;
-var x = radius * Math.cos(radians);
-var y = radius * Math.sin(radians);
+    // Trig to calc meter point
+    var degrees = 180 - level,
+        radius = .5;
+    var radians = degrees * Math.PI / 180;
+    var x = radius * Math.cos(radians);
+    var y = radius * Math.sin(radians);
 
-// Path: may have to change to create a better triangle
-var mainPath = 'M -.0 -0.025 L .0 0.025 L ',
-     pathX = String(x),
-     space = ' ',
-     pathY = String(y),
-     pathEnd = ' Z';
-var path = mainPath.concat(pathX,space,pathY,pathEnd);
+    // Path: may have to change to create a better triangle
+    var mainPath = 'M -.0 -0.025 L .0 0.025 L ',
+        pathX = String(x),
+        space = ' ',
+        pathY = String(y),
+        pathEnd = ' Z';
+    var path = mainPath.concat(pathX,space,pathY,pathEnd);
 
-var data = [{ type: 'scatter',
-   x: [0], y:[0],
-    marker: {size: 28, color:'850000'},
-    showlegend: false,
-    name: 'frequency',
-    text: frequency,
-    hoverinfo: 'text+name'},
-  { values: [50/9,50/9, 50/9, 50/9, 50/9, 50/9, 50/9, 50/9,50/9,50],
-  rotation: 90,
-  text: ['8-9', '7-8', '6-7', '5-6', '4-5', '3-4',
-            '2-3', '1-2', '0-1',''],
-  textinfo: 'text',
-  textposition:'inside',
-  marker: {colors:['rgba(14, 127, 0, .5)', 'rgba(110, 154, 22, .5)',
-                         'rgba(170, 202, 42, .5)', 'rgba(202, 209, 95, .5)',
-                         'rgba(205, 202, 42, .5)', 'rgba(210, 209, 95, .5)',
-                         'rgba(210, 206, 145, .5)', 'rgba(232, 226, 202, .5)',
-                         'rgba(240, 216, 145, .5)',
-                         'rgba(255, 255, 255, 0)']},
-  labels: ['8-9', '7-8', '6-7', '5-6', '4-5', '3-4',
-  '2-3', '1-2', '0-1',''],
-  hoverinfo: 'label',
-  hole: .5,
-  type: 'pie',
-  showlegend: false
-}];
+    var data = [{ type: 'scatter',
+    x: [0], y:[0],
+        marker: {size: 28, color:'850000'},
+        showlegend: false,
+        name: 'frequency',
+        text: frequency,
+        hoverinfo: 'text+name'},
+    { values: [50/9,50/9, 50/9, 50/9, 50/9, 50/9, 50/9, 50/9,50/9,50],
+    rotation: 90,
+    text: ['8-9', '7-8', '6-7', '5-6', '4-5', '3-4',
+                '2-3', '1-2', '0-1',''],
+    textinfo: 'text',
+    textposition:'inside',
+    marker: {colors:['rgba(14, 127, 0, .5)', 'rgba(110, 154, 22, .5)',
+                            'rgba(170, 202, 42, .5)', 'rgba(202, 209, 95, .5)',
+                            'rgba(205, 202, 42, .5)', 'rgba(210, 209, 95, .5)',
+                            'rgba(210, 206, 145, .5)', 'rgba(232, 226, 202, .5)',
+                            'rgba(240, 216, 145, .5)',
+                            'rgba(255, 255, 255, 0)']},
+    labels: ['8-9', '7-8', '6-7', '5-6', '4-5', '3-4',
+    '2-3', '1-2', '0-1',''],
+    hoverinfo: 'label',
+    hole: .5,
+    type: 'pie',
+    showlegend: false
+    }];
 
-var layout = {
-  shapes:[{
-      type: 'path',
-      path: path,
-      fillcolor: '850000',
-      line: {
-        color: '850000'
-      }
-    }],
-  title: 'Weekly frequency 0-9',
-  xaxis: {zeroline:false, showticklabels:false,
-             showgrid: false, range: [-1, 1]},
-  yaxis: {zeroline:false, showticklabels:false,
-             showgrid: false, range: [-1, 1]}
-};
+    var layout = {
+    shapes:[{
+        type: 'path',
+        path: path,
+        fillcolor: '850000',
+        line: {
+            color: '850000'
+        }
+        }],
+    title: 'Weekly frequency 0-9',
+    xaxis: {zeroline:false, showticklabels:false,
+                showgrid: false, range: [-1, 1]},
+    yaxis: {zeroline:false, showticklabels:false,
+                showgrid: false, range: [-1, 1]}
+    };
 
-Plotly.newPlot('dialweek', data, layout);
-
-
-
-
+    Plotly.newPlot('dialweek', data, layout);
 }
 
 
@@ -171,47 +167,16 @@ function updatePlotly(newdata) {
  * (i.e. fetch data for the newly selected sample).
  */
 function optionChanged(route) {
-    console.log("called with  "+ route);
+    console.log("Option changed called with  "+ route);
     Plotly.d3.json(`samples/${route}`, function(error, data) {
         console.log("Option Changed", data);
         // update pie chart and scatter plot
         updatePlotly(data);   
     });
-
-    
-    console.log ("draw gauge for initial sample");
-    Plotly.d3.json(`/wfreq/${route}`, function(error, response) {
-        console.log("WFREQ/SAMPLE");
-        if (error) return console.warn(error);
-        console.log(response)
-
-        gauge(response);
-    });
-
-
-    Plotly.d3.json(`/metadata/${route}`, function(error, response) {
-        console.log("METADATA/SAMPLE");
-        if (error) return console.warn(error);
-        console.log(response);
-
-        var TABLE = document.getElementById('meta_data');
-        var TEXT1 = "<p> AGE:" + response.AGE + "</p>";
-        var TEXT2 = "<p> BBTYPE:" + response.BBTYPE + "</p>";
-        var TEXT3 = "<p> ETHNICITY:" + response.ETHNICITY + "</p>";
-        var TEXT4 = "<p> GENDER:" + response.GENDER + "</p>";
-        var TEXT5 = "<p> LOCATION:" + response.LOCATION + "</p>";
-
-        TABLE.innerHTML = TEXT1 + TEXT2 +TEXT3 + TEXT4 + TEXT5;
-
-        // for (var i = 1; i < response.length; i++) {
-        //     var TROW = document.createElement('tr');
-        //     var selectHTML = "<td> somtging </td>";
-        //     TROW.innerHTML = selectHTML;
-        //     TABLE.add(TROW); 
-        // }
-    });
-    
-
+    // update weekly frequency gauge, recreates the plot each time
+    weekly(route);
+    // update metadata displayed for selected sample
+    meta(route);
 } 
 
 var names_route = '/names';
@@ -262,6 +227,19 @@ function meta(sample){
     Plotly.d3.json(`/metadata/${sample}`, function(error, response) {
         console.log("medatdata "+ response);
         if (error) return console.warn(error);
+
+        var TABLE = document.getElementById('meta_data');
+        var TEXT1 = "<p> AGE:      " + response.AGE + "</p>";
+        var TEXT2 = "<p> BBTYPE:   " + response.BBTYPE + "</p>";
+        var TEXT3 = "<p> ETHNICITY:" + response.ETHNICITY + "</p>";
+        var TEXT4 = "<p> GENDER:   " + response.GENDER + "</p>";
+        var TEXT5 = "<p> LOCATION: " + response.LOCATION + "</p>";
+        TABLE.innerHTML = TEXT1 + TEXT2 +TEXT3 + TEXT4 + TEXT5;
+
+        var SAMPLEID = document.getElementById('sample_id');
+        var TEXT6 = "<p> SAMPLEID:  " + response.SAMPLEID + "</p>";
+        SAMPLEID.innerHTML = TEXT6;
+
         return response
     });
     
@@ -277,6 +255,8 @@ function weekly(sample){
     Plotly.d3.json(`/wfreq/${sample}`, function(error, response) {
         console.log("Weekly Frequency "+ response);
         if (error) return console.warn(error);
+
+        gauge(response);
         return response
     });
 }
@@ -293,6 +273,40 @@ function samples(sample){
         console.log("samples/SAMPLE");
         if (error) return console.warn(error);
         console.log(response)
+
+        datasample = response;    
+        var trace = [
+          {
+            labels: datasample.otu_ids.slice(1,11),
+            values: datasample.sample_values.slice(1,11),
+            type: 'pie'
+          },
+        ];
+        Plotly.plot('plot', trace);
+        var sizes =[];
+        for (var value in datasample.sample_values) {
+            sizes.push(datasample.sample_values[value]/2);
+          }
+        var traces = [
+            {
+              x: datasample.otu_ids,
+              y: datasample.sample_values,
+              type: 'scatter',
+              mode: 'markers',
+              marker: {
+                  size: sizes
+              }
+            },
+          ];
+        var layout = {
+            xaxis: {
+                title: 'OTU ID',
+            },
+            showlegend: false,
+        };
+    
+        Plotly.plot('scatter',traces, layout);
+
         return response
     })
 }
@@ -302,84 +316,9 @@ function init() {
 
     console.log("draw_pie for initial sample");
 
-    Plotly.d3.json(`/samples/BB_940`, function(error, response) {
-        console.log("SAMPLES/SAMPLE");
-        if (error) return console.warn(error);
-        console.log(response)
-    datasample = response;    
-    var trace = [
-      {
-        labels: datasample.otu_ids.slice(1,11),
-        values: datasample.sample_values.slice(1,11),
-        type: 'pie'
-      },
-    ];
-    Plotly.plot('plot', trace);
-    var sizes =[];
-    for (var value in datasample.sample_values) {
-        sizes.push(datasample.sample_values[value]/2);
-      }
-    var traces = [
-        {
-          x: datasample.otu_ids,
-          y: datasample.sample_values,
-          type: 'scatter',
-          mode: 'markers',
-          marker: {
-              size: sizes
-          }
-        },
-      ];
-    var layout = {
-        xaxis: {
-            title: 'OTU ID',
-           // range:[0,3700]
-        },
-        yaxis: {
-           // range:[0,200]
-        },
-        showlegend: false,
-    };
-    console.log("display initial scatter plot");
-    Plotly.plot('scatter',traces, layout);
-    });
-
-    
-    console.log ("draw gauge for initial sample");
-    Plotly.d3.json(`/wfreq/BB_940`, function(error, response) {
-        console.log("WFREQ/SAMPLE");
-        if (error) return console.warn(error);
-        console.log(response)
-
-        gauge(response);
-    });
-
-
-    Plotly.d3.json(`/metadata/BB_940`, function(error, response) {
-        console.log("METADATA/SAMPLE");
-        if (error) return console.warn(error);
-        console.log(response);
-
-        var TABLE = document.getElementById('meta_data');
-        var TEXT1 = "<p> AGE:" + response.AGE + "</p>";
-        var TEXT2 = "<p> BBTYPE:" + response.BBTYPE + "</p>";
-        var TEXT3 = "<p> ETHNICITY:" + response.ETHNICITY + "</p>";
-        var TEXT4 = "<p> GENDER:" + response.GENDER + "</p>";
-        var TEXT5 = "<p> LOCATION:" + response.LOCATION + "</p>";
-
-        TABLE.innerHTML = TEXT1 + TEXT2 +TEXT3 + TEXT4 + TEXT5;
-
-        // for (var i = 1; i < response.length; i++) {
-        //     var TROW = document.createElement('tr');
-        //     var selectHTML = "<td> somtging </td>";
-        //     TROW.innerHTML = selectHTML;
-        //     TABLE.add(TROW); 
-        // }
-    });
-
-
-
-
+    samples('BB_940');
+    weekly('BB_940');
+    meta('BB_940');
 }
   
 

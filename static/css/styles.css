@@ -29,13 +29,13 @@ p{
 }
 */
 .panel-heading{
-    height:10px !important;
-    padding:0;
-    background-color:rgb(30, 139, 129) !important;
+    padding:10;
+    background-color:rgba(163, 113, 20, 0.877) !important;
+    color:gainsboro !important;
 }
 
 h3{
-    color:rgba(163, 113, 20, 0.877);
+    color:green;
 }
 
 h2{

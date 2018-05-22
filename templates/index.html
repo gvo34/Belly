@@ -35,19 +35,21 @@
                 <div class="row">
                     <h1>Belly Button Biodiversity Dashboard</h1>
                     <p>Interactive sample visualization</p>
+                    <p>Select a sample</p>
+                        <select id="selDataset" onchange="optionChanged(this.value)"></select>
                 </div>
             </div>
 
                 <div class="row">
                 
                     <div class="col-md-2">
-                        <p>Select a sample</p>
-                        <select id="selDataset" onchange="optionChanged(this.value)"></select>
-
-                        <div class="panel">
-                            <h4> Sample Data</h4>
+                            <h3>Metadata</h3>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title" id="sample_id"></h4>
+                            </div>
+                            <div class=panel-body id="meta_data"></div>
                         </div>
-                        <div class=panel-body id="meta_data"></div>
                         
                     </div>
         
