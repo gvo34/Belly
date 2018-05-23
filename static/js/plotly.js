@@ -3,67 +3,68 @@
  * 
  * 
  */
+var colormap = [];
 
 function gauge(frequency){
-    // Trig to calc meter point
-    var degrees = 180 - (frequency*20);
-    var radius = .5;
-    var radians = degrees * Math.PI / 180;
-    var x = radius * Math.cos(radians);
-    var y = radius * Math.sin(radians);
+        // Trig to calc meter point
+        var degrees = 180 - (frequency*20);
+        var radius = .5;
+        var radians = degrees * Math.PI / 180;
+        var x = radius * Math.cos(radians);
+        var y = radius * Math.sin(radians);
 
-    // Path: may have to change to create a better triangle
-    var mainPath = 'M -.0 -0.025 L .0 0.025 L ',
-        pathX = String(x),
-        space = ' ',
-        pathY = String(y),
-        pathEnd = ' Z';
-    var path = mainPath.concat(pathX,space,pathY,pathEnd);
+        // Path: may have to change to create a better triangle
+        var mainPath = 'M -.0 -0.025 L .0 0.025 L ',
+            pathX = String(x),
+            space = ' ',
+            pathY = String(y),
+            pathEnd = ' Z';
+        var path = mainPath.concat(pathX,space,pathY,pathEnd);
 
-    var data = [{ type: 'scatter',
-    x: [0], y:[0],
-        marker: {size: 28, color:'850000'},
-        showlegend: false,
-        name: 'frequency',
-        text: frequency,
-        hoverinfo: 'text+name'},
-    { values: [50/9,50/9, 50/9, 50/9, 50/9, 50/9, 50/9, 50/9,50/9,50],
-    rotation: 90,
-    text: ['8-9', '7-8', '6-7', '5-6', '4-5', '3-4',
-                '2-3', '1-2', '0-1',''],
-    textinfo: 'text',
-    textposition:'inside',
-    marker: {colors:['rgba(14, 127, 0, .5)', 'rgba(110, 154, 22, .5)',
-                            'rgba(170, 202, 42, .5)', 'rgba(202, 209, 95, .5)',
-                            'rgba(205, 202, 42, .5)', 'rgba(210, 209, 95, .5)',
-                            'rgba(210, 206, 145, .5)', 'rgba(232, 226, 202, .5)',
-                            'rgba(240, 216, 145, .5)',
-                            'rgba(255, 255, 255, 0)']},
-    labels: ['8-9', '7-8', '6-7', '5-6', '4-5', '3-4',
-    '2-3', '1-2', '0-1',''],
-    hoverinfo: 'label',
-    hole: .5,
-    type: 'pie',
-    showlegend: false
-    }];
+        var data = [{ type: 'scatter',
+        x: [0], y:[0],
+            marker: {size: 28, color:'850000'},
+            showlegend: false,
+            name: 'frequency',
+            text: frequency,
+            hoverinfo: 'text+name'},
+        { values: [50/9,50/9, 50/9, 50/9, 50/9, 50/9, 50/9, 50/9,50/9,50],
+        rotation: 90,
+        text: ['8-9', '7-8', '6-7', '5-6', '4-5', '3-4',
+                    '2-3', '1-2', '0-1',''],
+        textinfo: 'text',
+        textposition:'inside',
+        marker: {colors:['rgba(14, 127, 0, .5)', 'rgba(110, 154, 22, .5)',
+                                'rgba(170, 202, 42, .5)', 'rgba(202, 209, 95, .5)',
+                                'rgba(205, 202, 42, .5)', 'rgba(210, 209, 95, .5)',
+                                'rgba(210, 206, 145, .5)', 'rgba(232, 226, 202, .5)',
+                                'rgba(240, 216, 145, .5)',
+                                'rgba(255, 255, 255, 0)']},
+        labels: ['8-9', '7-8', '6-7', '5-6', '4-5', '3-4',
+        '2-3', '1-2', '0-1',''],
+        hoverinfo: 'label',
+        hole: .5,
+        type: 'pie',
+        showlegend: false
+        }];
 
-    var layout = {
-    shapes:[{
-        type: 'path',
-        path: path,
-        fillcolor: '850000',
-        line: {
-            color: '850000'
-        }
-        }],
-    title: 'Weekly frequency 0-9',
-    xaxis: {zeroline:false, showticklabels:false,
-                showgrid: false, range: [-1, 1]},
-    yaxis: {zeroline:false, showticklabels:false,
-                showgrid: false, range: [-1, 1]}
-    };
+        var layout = {
+        shapes:[{
+            type: 'path',
+            path: path,
+            fillcolor: '850000',
+            line: {
+                color: '850000'
+            }
+            }],
+        title: 'Weekly frequency 0-9',
+        xaxis: {zeroline:false, showticklabels:false,
+                    showgrid: false, range: [-1, 1]},
+        yaxis: {zeroline:false, showticklabels:false,
+                    showgrid: false, range: [-1, 1]}
+        };
 
-    Plotly.newPlot('dialweek', data, layout);
+        Plotly.newPlot('dialweek', data, layout);
 }
 
 
@@ -85,33 +86,26 @@ function updatePlotly(newdata) {
 
     Plotly.restyle(plotdiv, 'labels', [labels]);
     Plotly.restyle(plotdiv, 'values', [values]);
-    //Plotly.restyle(plotdiv, 'text', [descriptions]);
+    Plotly.restyle(plotdiv, 'text', [descriptions]);
     
 
     var samplevalue =  newdata.sample_values;
     console.log(samplevalue);
-    size =[];
-    var d3colors = Plotly.d3.scale.category10();
-    // color = Plotly.d3.rgb(rgb).toString()
-    // var text = "Plotly: " + color + " ; " + rgb;
-    colors =[];
-    for (var i; i<newdata.otu_desc; i++){
-        colors.push(d3colors(i));
-    }
-
-    console.log(colors);
+    sizes =[];
+    colors = datasample.otu_desc.map((e,i)=>i);
 
     for (var value in newdata.sample_values) {
-        size.push(newdata.sample_values[value]/2);
+        sizes.push(newdata.sample_values[value]/2);
       }
-    console.log(size)
+    console.log(sizes)
 
     console.log("redraw scatter");
     var scatdiv = document.getElementById('scatter');
     Plotly.restyle(scatdiv, 'x', [newdata.otu_ids]);
     Plotly.restyle(scatdiv, 'y', [newdata.sample_values]);
     Plotly.restyle(scatdiv, 'text', [newdata.otu_desc]);
-    Plotly.restyle(scatdiv, 'marker.size', [size]);
+    Plotly.restyle(scatdiv, 'marker.size', [sizes]);
+    Plotly.restyle(scatdiv, 'marker.color', [colors]);
     
     // WHY doesnt this work?
     //Plotly.restyle(scatdiv, "marker.color",[colors]);
@@ -245,14 +239,26 @@ function samples(sample){
           {
             labels: datasample.otu_ids.slice(1,11),
             values: datasample.sample_values.slice(1,11),
-            type: 'pie'
+            text: datasample.otu_desc.slice(1,11),
+            type: 'pie',
+            hoverinfo: 'text',
+            textinfo: 'percent'
           },
         ];
         Plotly.plot('plot', trace);
         var sizes =[];
+        var descs =[];
+
         for (var value in datasample.sample_values) {
             sizes.push(datasample.sample_values[value]/2);
+            descs.push(datasample.otu_desc[value])
           }
+         
+        //   for (var description in datasample.otu_desc){
+        //       colors.append()
+        //   }
+        colors = datasample.otu_desc.map((e,i)=>i);
+        
         var traces = [
             {
               x: datasample.otu_ids,
@@ -260,7 +266,9 @@ function samples(sample){
               type: 'scatter',
               mode: 'markers',
               marker: {
-                  size: sizes
+                  size: sizes,
+                  color: colors,
+                  labels : datasample.otu_desc
               }
             },
           ];
@@ -288,5 +296,6 @@ function init() {
 }
   
 
-names()    
+names();
+otu();    
 init();

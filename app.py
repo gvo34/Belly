@@ -81,12 +81,12 @@ def otu():
         ...
     ]
     """
+    print('Gettin all OTU descriptions')
     results = session.query(OtuDB.lowest_taxonomic_unit_found).all()
     descriptions=[]
     for r in results:
         descriptions.append(r[0])
-    #print(descriptions)
-    return jsonify(descriptions)
+    return jsonify(list(set(descriptions)))
 
 
 @app.route('/metadata/<sample>')
