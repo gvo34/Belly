@@ -89,23 +89,17 @@ function updatePlotly(newdata) {
     Plotly.restyle(plotdiv, 'text', [descriptions]);
     
 
-    var samplevalue =  newdata.sample_values;
-    console.log(samplevalue);
-    sizes =[];
-    colors = datasample.otu_desc.map((e,i)=>i);
 
-    for (var value in newdata.sample_values) {
-        sizes.push(newdata.sample_values[value]/2);
-      }
+    var sizes = datasample.sample_values.map(elem=>(elem==1?1:elem/2));        
     console.log(sizes)
 
     console.log("redraw scatter");
     var scatdiv = document.getElementById('scatter');
     Plotly.restyle(scatdiv, 'x', [newdata.otu_ids]);
     Plotly.restyle(scatdiv, 'y', [newdata.sample_values]);
-    Plotly.restyle(scatdiv, 'text', [newdata.otu_desc]);
+    Plotly.restyle(scatdiv, 'hovertext', [newdata.otu_desc]);
     Plotly.restyle(scatdiv, 'marker.size', [sizes]);
-    Plotly.restyle(scatdiv, 'marker.color', [colors]);
+    Plotly.restyle(scatdiv, 'marker.color', [newdata.otu_ids]);
     
     // WHY doesnt this work?
     //Plotly.restyle(scatdiv, "marker.color",[colors]);
@@ -246,30 +240,20 @@ function samples(sample){
           },
         ];
         Plotly.plot('plot', trace);
-        var sizes =[];
-        var descs =[];
-
-        for (var value in datasample.sample_values) {
-            sizes.push(datasample.sample_values[value]/2);
-            descs.push(datasample.otu_desc[value])
-          }
-         
-        //   for (var description in datasample.otu_desc){
-        //       colors.append()
-        //   }
-        colors = datasample.otu_desc.map((e,i)=>i);
         
+        var sizes = datasample.sample_values.map(elem=>(elem==1?1:elem/2));        
         var traces = [
             {
               x: datasample.otu_ids,
               y: datasample.sample_values,
               type: 'scatter',
               mode: 'markers',
+              hovertext : datasample.otu_desc,
               marker: {
                   size: sizes,
-                  color: colors,
-                  labels : datasample.otu_desc
-              }
+                  color: datasample.otu_ids,
+                  colorscale: 'YlGnBu',  
+              },
             },
           ];
         var layout = {
