@@ -57,9 +57,9 @@ function gauge(frequency){
                 color: '850000'
             }
             }],
-        title: 'Weekly frequency 0-9',
-        xaxis: {zeroline:false, showticklabels:false,
-                    showgrid: false, range: [-1, 1]},
+        title: 'Belly Button Washing frequency',
+        xaxis: {zeroline:false, showticklabels:false, title: 'Scrubs per week',
+                    showgrid: false, range: [-1, 1]}, 
         yaxis: {zeroline:false, showticklabels:false,
                     showgrid: false, range: [-1, 1]}
         };
@@ -90,7 +90,7 @@ function updatePlotly(newdata) {
     
 
 
-    var sizes = datasample.sample_values.map(elem=>(elem==1?1:elem/2));        
+    var sizes = datasample.sample_values.map(elem=>(elem==1?1:Math.ceil(elem/2)));        
     console.log(sizes)
 
     console.log("redraw scatter");

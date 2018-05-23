@@ -14,6 +14,7 @@
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
+                    <img src="{{ url_for('static',filename='img/bacteria_by_filterforgedotcom.jpg') }}">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
@@ -24,7 +25,7 @@
                 Belly Button Biodiversity
                 </a>
             </div>
-                <img src="{{ url_for('static',filename='img/bacteria_by_filterforgedotcom.jpg') }}">
+                
                
         </div> <!-- /.container-fluid --> 
     </nav>
@@ -43,7 +44,7 @@
                 <div class="row">
                 
                     <div class="col-md-2">
-                            <h3>Metadata</h3>
+                            
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title" id="sample_id"></h4>
@@ -55,18 +56,18 @@
         
     
                     <div class="col-md-6">
-                        <h3>Top 10 sample distribution</h3>
+                       
                         <div id="plot"></div>
                     </div>
                     <div class="col-md-4">
-                        <h3>Weekly Frequency</h3>   
+                        
                         <div id="dialweek"></div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-12">
-                    <h2>All sample data distribution</h2>
+                    <div class="col-md-12" style="margin-top:20px">
+                    
                     <div id="scatter"></div>
                     </div>
                 </div>
